@@ -103,7 +103,7 @@ int initializeBST(Node** h) {
 	if(*h != NULL) //해드가 가리키는 곳이 널이 아니면 
 		freeBST(*h); //트리에 할당된 모든 메모리를 해제
 
-	/* create a head node */ //해드를 만들어줌
+	/* create a head node */ //해드를 만들어줌 초기상태
 	*h = (Node*)malloc(sizeof(Node)); //동적할당
 	(*h)->left = NULL;	/* root */
 	(*h)->right = *h; //자기자신 
@@ -116,39 +116,39 @@ int initializeBST(Node** h) {
 void inorderTraversal(Node* ptr) //중위 순회 함수
 {
 	if(ptr) {
-		inorderTraversal(ptr->left);
-		printf(" [%d] ", ptr->key);
-		inorderTraversal(ptr->right);
+		inorderTraversal(ptr->left); //왼쪽으로 이동하고 다시 중위 순회
+		printf(" [%d] ", ptr->key); // 노드 키값 출력
+		inorderTraversal(ptr->right); //오른쪽으로 이동하고 다시 중위 순회
 	}
 }
 
 void preorderTraversal(Node* ptr) //전위 순회 함수
 {
 	if(ptr) {
-		printf(" [%d] ", ptr->key);
-		preorderTraversal(ptr->left);
-		preorderTraversal(ptr->right);
+		printf(" [%d] ", ptr->key); // 노드 키값 출력
+		preorderTraversal(ptr->left); //왼쪽으로 이동하고 전위 순회
+		preorderTraversal(ptr->right); //오른쪽으로 이동하고 전위 순회
 	}
 }
 
-void postorderTraversal(Node* ptr) //후위 순회 함수
+void postorderTraversal(Node* ptr) //전위 순회 함수
 {
 	if(ptr) {
-		postorderTraversal(ptr->left);
-		postorderTraversal(ptr->right);
-		printf(" [%d] ", ptr->key);
+		postorderTraversal(ptr->left); //왼쪽으로 이동하고 다시 전위 순회
+		postorderTraversal(ptr->right); //오른쪽으로 이동하고 다시 전위 순회
+		printf(" [%d] ", ptr->key); // 노드 키값 출력
 	}
 }
 
 
 int insert(Node* head, int key) //트리에 노드 삽입하는 함수
 {
-	Node* newNode = (Node*)malloc(sizeof(Node));
-	newNode->key = key;
-	newNode->left = NULL;
-	newNode->right = NULL;
+	Node* newNode = (Node*)malloc(sizeof(Node)); // 동적할당
+	newNode->key = key; //노드에 받은 키값 대입
+	newNode->left = NULL; //왼쪽 노드 NULL
+	newNode->right = NULL;// 오른쪽 NULL
 
-	if (head->left == NULL) {
+	if (head->left == NULL) { //
 		head->left = newNode;
 		return 1;
 	}
@@ -157,10 +157,10 @@ int insert(Node* head, int key) //트리에 노드 삽입하는 함수
 	Node* ptr = head->left;
 
 	Node* parentNode = NULL;
-	while(ptr != NULL) {
+	while(ptr != NULL) { // 
 
 		/* if there is a node for the key, then just return */
-		if(ptr->key == key) return 1;
+		if(ptr->key == key) return 1; //키와 같은 노드가 있으면 리턴1
 
 		/* we have to move onto children nodes,
 		 * keep tracking the parent using parentNode */
@@ -184,7 +184,7 @@ int insert(Node* head, int key) //트리에 노드 삽입하는 함수
 	return 1;
 }
 
-int deleteLeafNode(Node* head, int key)
+int deleteLeafNode(Node* head, int key) //데이터에 맞는 노드 삭제 하는 함수
 {
 	if (head == NULL) {
 		printf("\n Nothing to delete!!\n");
@@ -247,7 +247,7 @@ int deleteLeafNode(Node* head, int key)
 	return 1;
 }
 
-Node* searchRecursive(Node* ptr, int key)
+Node* searchRecursive(Node* ptr, int key) //데이터에 맞는 노드 검색하는 함수 (Recursive 방식)
 {
 	if(ptr == NULL)
 		return NULL;
@@ -261,7 +261,7 @@ Node* searchRecursive(Node* ptr, int key)
 	return ptr;
 
 }
-Node* searchIterative(Node* head, int key)
+Node* searchIterative(Node* head, int key) //데이터에 맞는 노드 검색하는 함수 (Iterative 방식)
 {
 	/* root node */
 	Node* ptr = head->left;
@@ -281,26 +281,26 @@ Node* searchIterative(Node* head, int key)
 
 void freeNode(Node* ptr)
 {
-	if(ptr) {
-		freeNode(ptr->left);
-		freeNode(ptr->right);
-		free(ptr);
+	if(ptr) { // 트리에 할당된 모든 메모리를 해제
+		freeNode(ptr->left); //왼쪽으로 이동하고 다시freeNode
+		freeNode(ptr->right); //오른쪽으로 이동하고 다시 freeNode
+		free(ptr); //동적할당 해제
 	}
 }
 
-int freeBST(Node* head)
+int freeBST(Node* head) //트리에 할당된 모든 메모리를 해제 하는 함수 해드도
 {
 
-	if(head->left == head)
+	if(head->left == head) //head->left가 자기 자신일때
 	{
-		free(head);
-		return 1;
+		free(head); //해드 동적할당 해제
+		return 1; //리턴1
 	}
 
-	Node* p = head->left;
+	Node* p = head->left; // Node형 포인터 구조체 p선언 해드 노드의 왼쪽 주소 대입
 
-	freeNode(p);
+	freeNode(p); // 트리에 할당된 모든 메모리를 해제
 
-	free(head);
+	free(head); // 해드 해제
 	return 1;
 }
