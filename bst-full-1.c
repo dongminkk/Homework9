@@ -131,11 +131,11 @@ void preorderTraversal(Node* ptr) //전위 순회 함수
 	}
 }
 
-void postorderTraversal(Node* ptr) //전위 순회 함수
+void postorderTraversal(Node* ptr) //후위 순회 함수
 {
 	if(ptr) {
-		postorderTraversal(ptr->left); //왼쪽으로 이동하고 다시 전위 순회
-		postorderTraversal(ptr->right); //오른쪽으로 이동하고 다시 전위 순회
+		postorderTraversal(ptr->left); //왼쪽으로 이동하고 다시 후위 순회
+		postorderTraversal(ptr->right); //오른쪽으로 이동하고 다시 후위 순회
 		printf(" [%d] ", ptr->key); // 노드 키값 출력
 	}
 }
